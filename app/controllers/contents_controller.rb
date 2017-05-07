@@ -1,4 +1,6 @@
 class ContentsController < ApplicationController
+   before_action :authorize, only: [:new, :edit, :update, :destroy]
+   
   def index
     @contents = Content.all
     
@@ -16,9 +18,11 @@ class ContentsController < ApplicationController
   end
 
   def create
-    @content = Content.new(content_params)
-    @content.save
-    redirect_to @content
+    content = Content.new(content_params)
+    content.user_id = current_user.id
+    content.save
+    
+    redirect_to contents_path
 
   end
 
@@ -44,7 +48,7 @@ class ContentsController < ApplicationController
   private
   
   def content_params
-    params.require(:content).permit(:title, :body)
+    params.require(:content).permit(:user_id, :title, :body)
   end
   
   
