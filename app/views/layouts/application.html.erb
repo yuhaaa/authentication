@@ -2,22 +2,23 @@
 <html>
 <head>
   <title>Workspace</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
+
 <body>
-  
-  <%= link_to "Home", root_url %>
+<br>
+
   <% if current_user %>
-      Logged in as <%= current_user.email %>.
-      <%= link_to "Log Out", logout_path %>
-      <%= link_to "New Post", new_content_path %>
+  <%= current_user.email %>
+  <%= link_to 'Logout', session_path(current_user.id), method: :delete%>
+  <%= link_to 'Admin', edit_user_path(current_user.id) %>
+  <%= link_to 'Moder', users_moder_path(current_user.id) %>
   <% else %>
-      <%= link_to "Sign Up", signup_path %> or
-      <%= link_to "Log In", login_path %>
+  <%= link_to 'Sign in', new_user_path %>|
+  <%= link_to  'Log in', new_session_path %>
   <% end %>
-  <br>
 
 <%= yield %>
 
